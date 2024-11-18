@@ -40,12 +40,18 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
+    //creating new gamne objects
+    GameMechs gameMechs(28, 15);
+    Player player(&gameMechs);
+
+
     exitFlag = false;
 }
 
 void GetInput(void)
 {
-   
+   gameMechs.clearInput();
+   gameMechs.getInput();
 }
 
 void RunLogic(void)

@@ -19,25 +19,37 @@ objPos::objPos(int xPos, int yPos, char sym)
 // Respect the rule of six / minimum four
 // [TODO] Implement the missing special member functions to meet the minimum four rule
 
+//Destructor
+objPos::~objPos(){
+    delete pos;
+}
+//Copy Constructor
+objPos::objPos(const objPos& other){
+    pos = new Pos;
+    pos->x = other.pos->x;
+    pos->y = other.pos->y;
+    symbol = other.symbol;
+}
+//Copy Assignment Operator
+objPos::objPos(const objPos& other){
+    pos->x = other.pos->x;
+    pos->y = other.pos->y;
+    symbol = other.symbol;
+}
 
-
-
-void objPos::setObjPos(objPos o)
-{
+void objPos::setObjPos(objPos o){
     pos->x = o.pos->x;
     pos->y = o.pos->y;
     symbol = o.symbol;
 }
 
-void objPos::setObjPos(int xPos, int yPos, char sym)
-{
+void objPos::setObjPos(int xPos, int yPos, char sym){
     pos->x = xPos;
     pos->y = yPos;
     symbol = sym;
 }
 
-objPos objPos::getObjPos() const
-{
+objPos objPos::getObjPos() const{
     objPos returnPos;
     returnPos.pos->x = pos->x;
     returnPos.pos->y = pos->y;
@@ -46,18 +58,15 @@ objPos objPos::getObjPos() const
     return returnPos;
 }
 
-char objPos::getSymbol() const
-{
+char objPos::getSymbol() const{
     return symbol;
 }
 
-bool objPos::isPosEqual(const objPos* refPos) const
-{
+bool objPos::isPosEqual(const objPos* refPos) const{
     return (refPos->pos->x == pos->x && refPos->pos->y == pos->y);
 }
 
-char objPos::getSymbolIfPosEqual(const objPos* refPos) const
-{
+char objPos::getSymbolIfPosEqual(const objPos* refPos) const{
     if(isPosEqual(refPos))
         return symbol;
     else
