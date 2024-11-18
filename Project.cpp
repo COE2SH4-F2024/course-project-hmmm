@@ -1,12 +1,21 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+#include "Player.h"
+#include "GameMechs.h"
 
 using namespace std;
 
 #define DELAY_CONST 100000
 
+//Global Variables
 bool exitFlag;
+Player* player = nullptr;
+GameMechs* gameMechs = nullptr;
+
+int winningScore;
+
+
 
 void Initialize(void);
 void GetInput(void);
@@ -41,27 +50,41 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     //creating new gamne objects
-    GameMechs gameMechs(28, 15);
-    Player player(&gameMechs);
-
+    gameMechs = new GameMechs();
+    player = new Player(gameMechs);
+    winningScore = 100;
 
     exitFlag = false;
 }
 
 void GetInput(void)
 {
-   gameMechs.clearInput();
-   gameMechs.getInput();
+    gameMechs->clearInput();
+    if(MacUILib_hasChar()){
+        gameMechs->setInput(MacUILib_getChar());
+    }
 }
 
 void RunLogic(void)
 {
-    
+    if(gameMechs->getScore() == winningScore || gameMechs->getInput() == 27){
+        gameMechs->setExitTrue();
+    }
+    exitFlag = gameMechs->getExitFlagStatus();
+
+
 }
 
 void DrawScreen(void)
 {
-    MacUILib_clearScreen();    
+    MacUILib_clearScreen();
+        int hasObject = 0;
+
+    MacUILib_clearScreen();
+    MacUILib_printf("####################\n");
+    MacUILib_printf("####################\n");
+    char input = gameMechs->getInput();
+
 }
 
 void LoopDelay(void)

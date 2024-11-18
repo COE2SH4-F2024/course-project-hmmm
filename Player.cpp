@@ -51,24 +51,24 @@ void Player::movePlayer()
         switch(myDir){
             case UP:
                 if(playerPos.pos->y == 0)
-                    playerPos.pos->y = mainGameMechsRef->getScreenHeight() - 1;
+                    playerPos.pos->y = mainGameMechsRef->getBoardSizeY() - 1;
                 else
                     playerPos.pos->y--;
                 break;
             case DOWN:
-                if(playerPos.pos->y == mainGameMechsRef->getScreenHeight() - 1)
+                if(playerPos.pos->y == mainGameMechsRef->getBoardSizeY() - 1)
                     playerPos.pos->y = 0;
                 else
                     playerPos.pos->y++;
                 break;
             case LEFT:
                 if(playerPos.pos->x == 0)
-                    playerPos.pos->x = mainGameMechsRef->getScreenWidth() - 1;
+                    playerPos.pos->x = mainGameMechsRef->getBoardSizeX() - 1;
                 else
                     playerPos.pos->x--;
                 break;
             case RIGHT:
-                if(playerPos.pos->x == mainGameMechsRef->getScreenWidth() - 1)
+                if(playerPos.pos->x == mainGameMechsRef->getBoardSizeX() - 1)
                     playerPos.pos->x = 0;
                 else
                     playerPos.pos->x++;
