@@ -1,24 +1,25 @@
 #include "GameMechs.h"
+#include <stdio.h>
 
-GameMechs::GameMechs()
+GameMechs::GameMechs() //initializes with default values for board size
 {
     this->boardSizeX = 28; //only the size of the board that the snake can access, excludes borders
     this->boardSizeY = 13;
     this->score = 0;
     this->exitFlag = false;
     this->loseFlag = false;
-    //this->food = (random food generation code)
+    this->food = objPos(rand() %boardSizeX, rand() %boardSizeY,'@'); //update to avoid snake tiles
 
 }
 
-GameMechs::GameMechs(int boardX, int boardY)
+GameMechs::GameMechs(int boardX, int boardY) //initializes with custom board size values
 {
     this->boardSizeX = boardX;
     this->boardSizeY = boardY;
     this->score = 0;
     this->exitFlag = false;
     this->loseFlag = false;
-    //this->food = (random food generation code)
+    this->food = objPos(rand() %boardSizeX, rand() %boardSizeY,'@'); //update to avoid snake tiles
 }
 
 // do you need a destructor?
