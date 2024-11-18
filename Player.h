@@ -8,7 +8,6 @@
 class Player
 {
     // Construct the remaining declaration from the project manual.
-
     // Only some sample members are included here
 
     // You will include more data members and member functions to complete your design.

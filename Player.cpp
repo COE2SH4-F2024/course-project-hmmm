@@ -5,6 +5,7 @@ Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
+    playerPos = objPos(5,5,'@');
 
     // more actions to be included
 }

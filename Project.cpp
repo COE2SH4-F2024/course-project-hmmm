@@ -72,6 +72,9 @@ void RunLogic(void)
     }
     exitFlag = gameMechs->getExitFlagStatus();
 
+    player->updatePlayerDir();
+    player->movePlayer();
+
 
 }
 
@@ -81,9 +84,29 @@ void DrawScreen(void)
         int hasObject = 0;
 
     MacUILib_clearScreen();
-    MacUILib_printf("####################\n");
-    MacUILib_printf("####################\n");
-    char input = gameMechs->getInput();
+    int i,j;
+    for(i=0;i<gameMechs->getBoardSizeX()+2;i++){
+        MacUILib_printf("#");
+    }
+    MacUILib_printf("\n");
+    
+    
+    for(i=0;i<gameMechs->getBoardSizeY();i++){
+            MacUILib_printf("#");
+        for(j=0; j<gameMechs->getBoardSizeX();j++){
+            if(j == (player->getPlayerPos().pos->x) && i == (player->getPlayerPos().pos->y)){
+                MacUILib_printf("%c", player->getPlayerPos().getSymbol());
+            }
+            else{
+                MacUILib_printf(" ");
+            }
+        }
+        MacUILib_printf("#\n");
+    }
+    for(i=0;i<gameMechs->getBoardSizeX()+2;i++){
+        MacUILib_printf("#");
+    }
+    MacUILib_printf("\n");
 
 }
 
@@ -96,6 +119,7 @@ void LoopDelay(void)
 void CleanUp(void)
 {
     MacUILib_clearScreen();    
-
+    free(player);
+    free(gameMechs);
     MacUILib_uninit();
 }
