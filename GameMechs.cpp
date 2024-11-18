@@ -8,7 +8,9 @@ GameMechs::GameMechs() //initializes with default values for board size
     this->score = 0;
     this->exitFlag = false;
     this->loseFlag = false;
-    this->food = objPos(rand() %boardSizeX, rand() %boardSizeY,'@'); //update to avoid snake tiles
+
+    
+    //this->food = objPos(rand() %boardSizeX, rand() %boardSizeY,'@'); //update to avoid snake tiles
 
 }
 
@@ -19,7 +21,7 @@ GameMechs::GameMechs(int boardX, int boardY) //initializes with custom board siz
     this->score = 0;
     this->exitFlag = false;
     this->loseFlag = false;
-    this->food = objPos(rand() %boardSizeX, rand() %boardSizeY,'@'); //update to avoid snake tiles
+    //this->food = objPos(rand() %boardSizeX, rand() %boardSizeY,'@'); //update to avoid snake tiles
 }
 
 // do you need a destructor?
