@@ -21,7 +21,7 @@ class objPos
         // [TODO] Implement the missing special member functions to meet the minimum four rule
         ~objPos();
         objPos(const objPos& other);
-        objPos(const objPos& other, bool boolean, bool boolean2);
+        objPos& operator=(const objPos& other);
 
         
         void setObjPos(objPos o);        
