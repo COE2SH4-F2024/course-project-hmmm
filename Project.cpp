@@ -83,14 +83,11 @@ void DrawScreen(void)
     MacUILib_clearScreen();
         int hasObject = 0;
 
-    MacUILib_clearScreen();
     int i,j;
     for(i=0;i<gameMechs->getBoardSizeX()+2;i++){
         MacUILib_printf("#");
     }
     MacUILib_printf("\n");
-    
-    
     for(i=0;i<gameMechs->getBoardSizeY();i++){
             MacUILib_printf("#");
         for(j=0; j<gameMechs->getBoardSizeX();j++){
@@ -107,7 +104,6 @@ void DrawScreen(void)
         MacUILib_printf("#");
     }
     MacUILib_printf("\n");
-
 }
 
 void LoopDelay(void)

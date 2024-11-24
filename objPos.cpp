@@ -20,6 +20,10 @@ objPos::objPos(int xPos, int yPos, char sym)
 // [TODO] Implement the missing special member functions to meet the minimum four rule
 
 //Destructor
+<<<<<<< HEAD
+=======
+//TODO fix this!
+>>>>>>> 03940406ad9e36fa6886763b3fdb39df273e91dd
 objPos::~objPos(){
     delete pos;
 }
@@ -31,8 +35,10 @@ objPos::objPos(const objPos& other){
     symbol = other.symbol;
 }
 //Copy Assignment Operator
-objPos::objPos(const objPos& other,bool boolean, bool boolean2)   
-{ 
+objPos& objPos::operator=(const objPos& other){
+    this->~objPos();
+    
+    pos = new Pos;
     pos->x = other.pos->x;
     pos->y = other.pos->y;
     symbol = other.symbol;
