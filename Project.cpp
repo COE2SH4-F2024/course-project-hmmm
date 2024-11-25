@@ -3,6 +3,7 @@
 #include "objPos.h"
 #include "Player.h"
 #include "GameMechs.h"
+#include "Food.h"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ using namespace std;
 bool exitFlag;
 Player* player = nullptr;
 GameMechs* gameMechs = nullptr;
+Food* food = nullptr;
 
 int winningScore;
 
@@ -52,8 +54,9 @@ void Initialize(void)
     //creating new gamne objects
     gameMechs = new GameMechs();
     player = new Player(gameMechs);
+    //food = new Food();
     winningScore = 100;
-
+    srand(time(NULL));
     exitFlag = false;
 }
 
@@ -75,7 +78,9 @@ void RunLogic(void)
     player->updatePlayerDir();
     player->movePlayer();
 
-
+    //food->CoordsGeneration(player->getPlayerPos().pos->x, player->getPlayerPos().pos->y);
+    //food->FoodGeneration();
+    
 }
 
 void DrawScreen(void)

@@ -3,24 +3,24 @@
 
 GameMechs::GameMechs() //initializes with default values for board size
 {
-    this->boardSizeX = 28; //only the size of the board that the snake can access, excludes borders
-    this->boardSizeY = 13;
-    this->score = 0;
-    this->exitFlag = false;
-    this->loseFlag = false;
+    boardSizeX = 28; //only the size of the board that the snake can access, excludes borders
+    boardSizeY = 13;
+    score = 0;
+    exitFlag = false;
+    loseFlag = false;
 
     
     //this->food = objPos(rand() %boardSizeX, rand() %boardSizeY,'@'); //update to avoid snake tiles
 
 }
 
-GameMechs::GameMechs(int boardX, int boardY) //initializes with custom board size values
+GameMechs::GameMechs(int boardSizeX, int boardSizeY) //initializes with custom board size values
 {
-    this->boardSizeX = boardX;
-    this->boardSizeY = boardY;
-    this->score = 0;
-    this->exitFlag = false;
-    this->loseFlag = false;
+    this->boardSizeX = boardSizeX;
+    this->boardSizeY = boardSizeY;
+    score = 0;
+    exitFlag = false;
+    loseFlag = false;
     //this->food = objPos(rand() %boardSizeX, rand() %boardSizeY,'@'); //update to avoid snake tiles
 }
 
@@ -77,9 +77,9 @@ void GameMechs::setLoseFlag()
     this->loseFlag = true;
 }
 
-void GameMechs::setInput(char this_input)
+void GameMechs::setInput(char input)
 {
-    this->input = this_input;
+    this->input = input;
 }
 
 void GameMechs::clearInput()

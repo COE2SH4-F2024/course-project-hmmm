@@ -20,10 +20,7 @@ objPos::objPos(int xPos, int yPos, char sym)
 // [TODO] Implement the missing special member functions to meet the minimum four rule
 
 //Destructor
-<<<<<<< HEAD
-=======
 //TODO fix this!
->>>>>>> 03940406ad9e36fa6886763b3fdb39df273e91dd
 objPos::~objPos(){
     delete pos;
 }
