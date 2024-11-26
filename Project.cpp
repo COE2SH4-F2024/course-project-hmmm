@@ -134,10 +134,14 @@ void DrawScreen(void)
     MacUILib_printf("\n");
     MacUILib_printf("Score: %d\n",gameMechs->getScore());
     MacUILib_printf("WASD to Move, ESC to Shutdown\n");
+    MacUILib_printf("The $ Special Food Gives You +10 Score\n");
+    MacUILib_printf("The %% Special Food Acts Like Normal Food If You Have =<2 Length But Reduces Your Length By 2 When You Have >2 Length\n");
+
+
     if(gameMechs->getLoseFlagStatus() == true){
         MacUILib_printf("You Lose :(\n");
     }
-    else if(gameMechs->getScore() == 5 && gameMechs->getExitFlagStatus() == true){
+    else if(gameMechs->getScore() >= 100 && gameMechs->getExitFlagStatus() == true){
         MacUILib_printf("You Win :)\n");
     }
     

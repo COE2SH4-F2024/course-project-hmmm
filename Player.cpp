@@ -6,7 +6,7 @@
 Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
-    myDir = UP;
+    myDir = STOP;
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(objPos(5,5,'@'));
 
@@ -50,42 +50,60 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
-    if(myDir != STOP){
-        switch(myDir){
-            case UP:
-                if(playerPosList->getHeadElement().pos->y == 0)
-                    playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x,mainGameMechsRef->getBoardSizeY() - 1,'@'));
-                else
-                    playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x,playerPosList->getHeadElement().pos->y-1,'@'));
-                break;
-            case DOWN:
-                if(playerPosList->getHeadElement().pos->y == mainGameMechsRef->getBoardSizeY() - 1)
-                    playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x, 0, '@'));
-                else
-                    playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x, playerPosList->getHeadElement().pos->y + 1, '@'));
-                break;
-            case LEFT:
-                if(playerPosList->getHeadElement().pos->x == 0)
-                    playerPosList->insertHead(objPos(mainGameMechsRef->getBoardSizeX() - 1, playerPosList->getHeadElement().pos->y, '@'));
-                else
-                    playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x - 1, playerPosList->getHeadElement().pos->y, '@'));
-                break;
-            case RIGHT:
-                if(playerPosList->getHeadElement().pos->x == mainGameMechsRef->getBoardSizeX() - 1)
-                    playerPosList->insertHead(objPos(0, playerPosList->getHeadElement().pos->y, '@'));
-                else
-                    playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x + 1, playerPosList->getHeadElement().pos->y, '@'));
-                break;
-        }
+    switch(myDir){
+        case UP:
+            if(playerPosList->getHeadElement().pos->y == 0)
+                playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x,mainGameMechsRef->getBoardSizeY() - 1,'@'));
+            else
+                playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x,playerPosList->getHeadElement().pos->y-1,'@'));
+            break;
+        case DOWN:
+            if(playerPosList->getHeadElement().pos->y == mainGameMechsRef->getBoardSizeY() - 1)
+                playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x, 0, '@'));
+            else
+                playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x, playerPosList->getHeadElement().pos->y + 1, '@'));
+            break;
+        case LEFT:
+            if(playerPosList->getHeadElement().pos->x == 0)
+                playerPosList->insertHead(objPos(mainGameMechsRef->getBoardSizeX() - 1, playerPosList->getHeadElement().pos->y, '@'));
+            else
+                playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x - 1, playerPosList->getHeadElement().pos->y, '@'));
+            break;
+        case RIGHT:
+            if(playerPosList->getHeadElement().pos->x == mainGameMechsRef->getBoardSizeX() - 1)
+                playerPosList->insertHead(objPos(0, playerPosList->getHeadElement().pos->y, '@'));
+            else
+                playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x + 1, playerPosList->getHeadElement().pos->y, '@'));
+            break;
+        case STOP:
+            playerPosList->insertHead(objPos(playerPosList->getHeadElement()));
+            break;
     }
 }
 
+//& normal, %,$ special
 bool Player::checkFoodConsumption(objPosArrayList* foodList){
     for(int i = 0; i < foodList->getSize(); i++){
         if(playerPosList->getHeadElement().pos->x == foodList->getElement(i).pos->x
            && playerPosList->getHeadElement().pos->y == foodList->getElement(i).pos->y){
-                mainGameMechsRef->incrementScore();
-                return true;
+                if(foodList->getElement(i).getSymbol() == '%' && playerPosList->getSize() > 3){
+                    //int halfSize = playerPosList->getSize()/2+1;
+                    for(int j=0; j<3; j++){
+                        playerPosList->removeTail();
+                    }
+                    mainGameMechsRef->incrementScore();
+                }
+                else if(foodList->getElement(i).getSymbol() == '$'){
+                    for(int j=0; j<10; j++){
+                        mainGameMechsRef->incrementScore();
+                    }
+                }
+                else{
+                    mainGameMechsRef->incrementScore();
+                    
+                }
+                return true; 
+                
            }
     }
     return false;

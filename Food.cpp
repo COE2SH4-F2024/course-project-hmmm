@@ -27,20 +27,8 @@ objPosArrayList* Food::getFoodPos() const
     return foodPosList;
 }
 
-//TODO BONUS SPECIAL FRUIT
-// void Food::FoodGeneration(objPosArrayList foodList){
-//     srand(time(NULL));
-//     chosenFoods = new int[5];
-//     // for(int i=0;i<5;i++){
-//     //     chosenFoods[i] = 40;
-//     // }
-//     for(int i=0;i< rand()%3 ;i++){ // (max - min + 1) + 1 => (2 - 1 + 1)+ 1 either 1 or 2 special foods
-//         chosenFoods[i] = rand()% 3 + 36; //chooses a random special food (either type 1 or type 2)
-//     }//generates between 1 and 2 inclusive so either 1 or 2
-// }
 
 void Food::foodGeneration(objPosArrayList* playerPosList){
-    //delete food arrayList
     delete foodPosList;
     foodPosList = new objPosArrayList();
     for(int i = 0; i < 5; i++){
@@ -50,6 +38,7 @@ void Food::foodGeneration(objPosArrayList* playerPosList){
     srand(time(NULL));
     bool hasObject = false;
     int goodCoords = 0;
+    int numSpecial = (rand()% (2)+1);
     do{
         hasObject = false;
         int x = rand()%28;
@@ -64,7 +53,14 @@ void Food::foodGeneration(objPosArrayList* playerPosList){
                 hasObject = true;
             }
         }
-        if(!hasObject){
+        
+        if(!hasObject && goodCoords<numSpecial){
+            char chosenSpecial = (rand()% (2)) + 36;
+            foodPosList->insertHead(objPos(x,y,chosenSpecial));
+            foodPosList->removeTail();
+            goodCoords++;
+        }
+        else if(!hasObject && goodCoords >= numSpecial){
             foodPosList->insertHead(objPos(x,y,38));
             foodPosList->removeTail();
             goodCoords++;
@@ -72,3 +68,5 @@ void Food::foodGeneration(objPosArrayList* playerPosList){
 
     }while(goodCoords < foodPosList->getSize());
 }
+
+

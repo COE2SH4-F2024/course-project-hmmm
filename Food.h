@@ -17,7 +17,6 @@ class Food{
         Food(int size);
         ~Food();
         void foodGeneration(objPosArrayList* playerPosList);
-        //void FoodGeneration();
 
         objPosArrayList* getFoodPos() const;
 
