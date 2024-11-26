@@ -14,14 +14,10 @@ using namespace std;
 //Global Variables
 bool exitFlag;
 Player* player = nullptr;
-GameMechs* gameMechs = nullptr;
-objPosArrayList* playerList = nullptr;
-objPosArrayList* foodList = nullptr;
-
-
-Food* foodArray[FOOD_NUM_CONST] = {nullptr};
-
 Food* food = nullptr;
+GameMechs* gameMechs = nullptr;
+
+
 
 
 int winningScore;
@@ -63,25 +59,15 @@ void Initialize(void)
     //creating new gamne objects
     gameMechs = new GameMechs();
     player = new Player(gameMechs);
-    playerList = new objPosArrayList();
-    playerList->insertHead(player->getPlayerPos());
+
     
-
-
-    for(int i = 0; i < 5; i++){
-        foodArray[i] = new Food();
-    }
-    for(int i = 0; i < 5; i++){
-        foodArray[i]->CoordsGeneration(player->getPlayerPos().pos->x, player->getPlayerPos().pos->y, foodArray);
-    }
+    food = new Food(FOOD_NUM_CONST);
+    food->foodGeneration(player->getPlayerPos());
 
 
     winningScore = 100;
     srand(time(NULL));
     exitFlag = false;
-
-
-
 }
 
 void GetInput(void)
@@ -94,40 +80,55 @@ void GetInput(void)
 
 void RunLogic(void)
 {
-    winningScore = 500; //DELETE; JUST FOR TESTING
     if(gameMechs->getScore() == winningScore || gameMechs->getInput() == 27){
         gameMechs->setExitTrue();
     }
     exitFlag = gameMechs->getExitFlagStatus();
-    bool collision = false;
     if(gameMechs->getLoseFlagStatus() == false){
         player->updatePlayerDir();
         player->movePlayer();
-        playerList->insertHead(player->getPlayerPos());
-        
-        for(int i=0; i<5; i++){
-            if (playerList->getHeadElement().pos->x == foodArray[i]->getFoodPos().pos->x && playerList->getHeadElement().pos->y == foodArray[i]->getFoodPos().pos->y)
-            {
-                foodArray[i]->CoordsGeneration(player->getPlayerPos().pos->x, player->getPlayerPos().pos->y, foodArray);
-                gameMechs->incrementScore();
-                collision = true;
-            }
-            
+        player->getPlayerPos()->insertHead(player->getPlayerPos()->getHeadElement());
+        if(player->checkFoodConsumption(food->getFoodPos())){
+            food->foodGeneration(player->getPlayerPos());
         }
-
-        for(int i=2; i<playerList->getSize(); i++){
-            if(playerList->getHeadElement().pos->x == playerList->getElement(i).pos->x && playerList->getHeadElement().pos->y == playerList->getElement(i).pos->y){
-                gameMechs->setLoseFlag();
-                gameMechs->setExitTrue();
-                collision = true;
-                
-                
-            }
-        }
-        if(!collision){
-            playerList->removeTail();
-        }
+        player->checkSelfCollision();
+        player->increasePlayerSize(player->checkFoodConsumption(food->getFoodPos()));
     }
+
+
+    
+
+
+    // bool collision = false;
+    // if(gameMechs->getLoseFlagStatus() == false){
+    //     player->updatePlayerDir();
+    //     player->movePlayer();
+    //     player->getPlayerPos()->insertHead(player->getPlayerPos());
+
+    //     //TODO FOOD
+    //     for(int i=0; i<5; i++){
+    //         if (player->getPlayerPos()->getHeadElement().pos->x == foodArray[i]->getFoodPos().pos->x && player->getPlayerPos()->getHeadElement().pos->y == foodArray[i]->getFoodPos().pos->y)
+    //         {
+    //             foodArray[i]->CoordsGeneration(player->getPlayerPos().pos->x, player->getPlayerPos().pos->y, foodArray);
+    //             gameMechs->incrementScore();
+    //             collision = true;
+    //         }
+            
+    //     }
+
+    //     for(int i=2; i<player->getPlayerPos()->getSize(); i++){
+    //         if(player->getPlayerPos()->getHeadElement().pos->x == player->getPlayerPos()->getElement(i).pos->x && player->getPlayerPos()->getHeadElement().pos->y == player->getPlayerPos()->getElement(i).pos->y){
+    //             gameMechs->setLoseFlag();
+    //             gameMechs->setExitTrue();
+    //             collision = true;
+                
+                
+    //         }
+    //     }
+    //     if(!collision){
+    //         player->getPlayerPos()->removeTail();
+    //     }
+    // }
         
 }
 
@@ -145,18 +146,16 @@ void DrawScreen(void)
             MacUILib_printf("#");
         for(j=0; j<gameMechs->getBoardSizeX();j++){
             hasObject = false;
-
-
-            for(int k = 0; k < playerList->getSize(); k++){
-                if(j == (playerList->getElement(k).pos->x) && i == (playerList->getElement(k).pos->y)){
-                    MacUILib_printf("%c", player->getPlayerPos().getSymbol());
+            for(int k = 0; k < player->getPlayerPos()->getSize(); k++){
+                if(j == (player->getPlayerPos()->getElement(k).pos->x) && i == (player->getPlayerPos()->getElement(k).pos->y)){
+                    MacUILib_printf("%c", player->getPlayerPos()->getElement(k).getSymbol());
                     hasObject = true;
                     break;
                 }
             }
             for(int k = 0; k < FOOD_NUM_CONST; k++){
-                if(j == (foodArray[k]->getFoodPos().pos->x) && i == (foodArray[k]->getFoodPos().pos->y)){
-                    MacUILib_printf("%c", foodArray[k]->getFoodPos().getSymbol());
+                if(j == (food->getFoodPos()->getElement(k).pos->x) && i == (food->getFoodPos()->getElement(k).pos->y)){
+                    MacUILib_printf("%c", food->getFoodPos()->getElement(k).getSymbol());
                     hasObject = true;
                     break;
                 }

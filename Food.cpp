@@ -5,7 +5,16 @@
 
 
 Food::Food(){
-    foodPos = objPos(-1, -1, '&');
+    foodPosList = new objPosArrayList();
+    for(int i = 0; i < 5; i++){
+        foodPosList->insertHead(objPos(-1, -1, '&'));
+    }
+}
+Food::Food(int size){
+    foodPosList = new objPosArrayList();
+    for(int i = 0; i < size; i++){
+        foodPosList->insertHead(objPos(-1, -1, '&'));
+    }
 }
 
 Food::~Food(){
@@ -13,12 +22,12 @@ Food::~Food(){
     
 }
 
-objPos Food::getFoodPos() const
+objPosArrayList* Food::getFoodPos() const
 {
-    return this->foodPos;
+    return foodPosList;
 }
 
-
+//TODO BONUS SPECIAL FRUIT
 // void Food::FoodGeneration(objPosArrayList foodList){
 //     srand(time(NULL));
 //     chosenFoods = new int[5];
@@ -30,7 +39,14 @@ objPos Food::getFoodPos() const
 //     }//generates between 1 and 2 inclusive so either 1 or 2
 // }
 
-void Food::CoordsGeneration(int playerX, int playerY, Food* foodArray[]){
+void Food::foodGeneration(objPosArrayList* playerPosList){
+    //delete food arrayList
+    delete foodPosList;
+    foodPosList = new objPosArrayList();
+    for(int i = 0; i < foodPosList->getSize(); i++){
+        foodPosList->insertHead(objPos(-1, -1, '&'));
+    }
+
     srand(time(NULL));
     bool hasObject = false;
     int goodCoords = 0;
@@ -38,20 +54,20 @@ void Food::CoordsGeneration(int playerX, int playerY, Food* foodArray[]){
         hasObject = false;
         int x = rand()%28;
         int y = rand()%13;
-        for(int i=0;i<5;i++){
-            if((x == foodArray[i]->getFoodPos().pos->x && y == foodArray[i]->getFoodPos().pos->y)
-                || (x==playerX && y==playerY)){
+        for(int i=0;i<foodPosList->getSize();i++){
+            if(x == foodPosList->getElement(i).pos->x && y == foodPosList->getElement(i).pos->y){
                 hasObject = true;
             }
-
+        }
+        for(int i = 0; i < playerPosList->getSize(); i++){
+            if(x == playerPosList->getElement(i).pos->x && y == playerPosList->getElement(i).pos->y){
+                hasObject = true;
+            }
         }
         if(!hasObject){
-            foodPos.pos->x = x;
-            foodPos.pos->y = y;
-            foodPos.symbol = 38;
+            foodPosList->insertHead(objPos(x,y,38));
             goodCoords++;
         }
 
-
-    }while(goodCoords < 1);
+    }while(goodCoords < foodPosList->getSize());
 }

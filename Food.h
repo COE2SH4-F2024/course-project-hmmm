@@ -10,15 +10,16 @@
 
 class Food{
     private:
-        objPos foodPos;
+        objPosArrayList* foodPosList;
 
     public:
         Food();
+        Food(int size);
         ~Food();
-        void CoordsGeneration(int playerX, int playerY, Food* foodArray[]);
-        void FoodGeneration(objPosArrayList foodList);
+        void foodGeneration(objPosArrayList* playerPosList);
+        //void FoodGeneration();
 
-        objPos getFoodPos() const;
+        objPosArrayList* getFoodPos() const;
 
 };
 

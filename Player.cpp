@@ -1,11 +1,13 @@
 #include "Player.h"
+#include "objPosArrayList.h"
 
 
 Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
-    playerPos = objPos(5,5,'@');
+    playerPosList = new objPosArrayList();
+    playerPosList->insertHead(objPos(5,5,'@'));
 
     // more actions to be included
 }
@@ -15,10 +17,10 @@ Player::~Player()
     //TODO delete any heap members here
 }
 
-objPos Player::getPlayerPos() const
+objPosArrayList* Player::getPlayerPos() const
 {
     // return the reference to the playerPos arrray list
-    return playerPos;
+    return playerPosList;
 }
 
 void Player::updatePlayerDir()
@@ -50,31 +52,57 @@ void Player::movePlayer()
     if(myDir != STOP){
         switch(myDir){
             case UP:
-                if(playerPos.pos->y == 0)
-                    playerPos.pos->y = mainGameMechsRef->getBoardSizeY() - 1;
+                if(playerPosList->getHeadElement().pos->y == 0)
+                    playerPosList->getHeadElement().pos->y = mainGameMechsRef->getBoardSizeY() - 1;
                 else
-                    playerPos.pos->y--;
+                    playerPosList->getHeadElement().pos->y--;
                 break;
             case DOWN:
-                if(playerPos.pos->y == mainGameMechsRef->getBoardSizeY() - 1)
-                    playerPos.pos->y = 0;
+                if(playerPosList->getHeadElement().pos->y == mainGameMechsRef->getBoardSizeY() - 1)
+                    playerPosList->getHeadElement().pos->y = 0;
                 else
-                    playerPos.pos->y++;
+                    playerPosList->getHeadElement().pos->y++;
                 break;
             case LEFT:
-                if(playerPos.pos->x == 0)
-                    playerPos.pos->x = mainGameMechsRef->getBoardSizeX() - 1;
+                if(playerPosList->getHeadElement().pos->x == 0)
+                    playerPosList->getHeadElement().pos->x = mainGameMechsRef->getBoardSizeX() - 1;
                 else
-                    playerPos.pos->x--;
+                    playerPosList->getHeadElement().pos->x--;
                 break;
             case RIGHT:
-                if(playerPos.pos->x == mainGameMechsRef->getBoardSizeX() - 1)
-                    playerPos.pos->x = 0;
+                if(playerPosList->getHeadElement().pos->x == mainGameMechsRef->getBoardSizeX() - 1)
+                    playerPosList->getHeadElement().pos->x = 0;
                 else
-                    playerPos.pos->x++;
+                    playerPosList->getHeadElement().pos->x++;
                 break;
         }
     }
 }
 
-// More methods to be added
+bool Player::checkFoodConsumption(objPosArrayList* foodList){
+    for(int i = 0; i < foodList->getSize(); i++){
+        if(playerPosList->getHeadElement().pos->x == foodList->getElement(i).pos->x
+           && playerPosList->getHeadElement().pos->y == foodList->getElement(i).pos->y){
+                mainGameMechsRef->incrementScore();
+                return true;
+           }
+    }
+    return false;
+}
+//TODO
+void Player::checkSelfCollision(){
+    for(int i = 2; i < playerPosList->getSize(); i++){
+            if(playerPosList->getHeadElement().pos->x == playerPosList->getElement(i).pos->x && playerPosList->getHeadElement().pos->y == playerPosList->getElement(i).pos->y){
+                mainGameMechsRef->setLoseFlag();
+                mainGameMechsRef->setExitTrue();
+                return;
+            }
+    }
+    return;
+}
+//increase player length?
+void Player::increasePlayerSize(bool wasFed){
+    if(!wasFed){
+        playerPosList->removeTail();
+    }
+}
