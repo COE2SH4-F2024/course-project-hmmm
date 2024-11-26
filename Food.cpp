@@ -43,7 +43,7 @@ void Food::foodGeneration(objPosArrayList* playerPosList){
     //delete food arrayList
     delete foodPosList;
     foodPosList = new objPosArrayList();
-    for(int i = 0; i < foodPosList->getSize(); i++){
+    for(int i = 0; i < 5; i++){
         foodPosList->insertHead(objPos(-1, -1, '&'));
     }
 
@@ -66,6 +66,7 @@ void Food::foodGeneration(objPosArrayList* playerPosList){
         }
         if(!hasObject){
             foodPosList->insertHead(objPos(x,y,38));
+            foodPosList->removeTail();
             goodCoords++;
         }
 

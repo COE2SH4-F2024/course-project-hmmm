@@ -56,14 +56,11 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    //creating new gamne objects
+    //creating new game objects
     gameMechs = new GameMechs();
     player = new Player(gameMechs);
-
-    
     food = new Food(FOOD_NUM_CONST);
     food->foodGeneration(player->getPlayerPos());
-
 
     winningScore = 100;
     srand(time(NULL));
@@ -86,50 +83,14 @@ void RunLogic(void)
     exitFlag = gameMechs->getExitFlagStatus();
     if(gameMechs->getLoseFlagStatus() == false){
         player->updatePlayerDir();
-        player->movePlayer();
-        player->getPlayerPos()->insertHead(player->getPlayerPos()->getHeadElement());
+        player->movePlayer();//adds a head
         if(player->checkFoodConsumption(food->getFoodPos())){
             food->foodGeneration(player->getPlayerPos());
+        }else{
+            player->getPlayerPos()->removeTail();
         }
         player->checkSelfCollision();
-        player->increasePlayerSize(player->checkFoodConsumption(food->getFoodPos()));
     }
-
-
-    
-
-
-    // bool collision = false;
-    // if(gameMechs->getLoseFlagStatus() == false){
-    //     player->updatePlayerDir();
-    //     player->movePlayer();
-    //     player->getPlayerPos()->insertHead(player->getPlayerPos());
-
-    //     //TODO FOOD
-    //     for(int i=0; i<5; i++){
-    //         if (player->getPlayerPos()->getHeadElement().pos->x == foodArray[i]->getFoodPos().pos->x && player->getPlayerPos()->getHeadElement().pos->y == foodArray[i]->getFoodPos().pos->y)
-    //         {
-    //             foodArray[i]->CoordsGeneration(player->getPlayerPos().pos->x, player->getPlayerPos().pos->y, foodArray);
-    //             gameMechs->incrementScore();
-    //             collision = true;
-    //         }
-            
-    //     }
-
-    //     for(int i=2; i<player->getPlayerPos()->getSize(); i++){
-    //         if(player->getPlayerPos()->getHeadElement().pos->x == player->getPlayerPos()->getElement(i).pos->x && player->getPlayerPos()->getHeadElement().pos->y == player->getPlayerPos()->getElement(i).pos->y){
-    //             gameMechs->setLoseFlag();
-    //             gameMechs->setExitTrue();
-    //             collision = true;
-                
-                
-    //         }
-    //     }
-    //     if(!collision){
-    //         player->getPlayerPos()->removeTail();
-    //     }
-    // }
-        
 }
 
 void DrawScreen(void)

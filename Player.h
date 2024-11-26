@@ -25,7 +25,6 @@ class Player
 
         bool checkFoodConsumption(objPosArrayList* foodList);
         void checkSelfCollision();
-        void increasePlayerSize(bool wasFed);
     
 
     private:   

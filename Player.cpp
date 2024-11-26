@@ -1,11 +1,12 @@
 #include "Player.h"
 #include "objPosArrayList.h"
+#include "objPos.h"
 
 
 Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
-    myDir = STOP;
+    myDir = UP;
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(objPos(5,5,'@'));
 
@@ -53,27 +54,27 @@ void Player::movePlayer()
         switch(myDir){
             case UP:
                 if(playerPosList->getHeadElement().pos->y == 0)
-                    playerPosList->getHeadElement().pos->y = mainGameMechsRef->getBoardSizeY() - 1;
+                    playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x,mainGameMechsRef->getBoardSizeY() - 1,'@'));
                 else
-                    playerPosList->getHeadElement().pos->y--;
+                    playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x,playerPosList->getHeadElement().pos->y-1,'@'));
                 break;
             case DOWN:
                 if(playerPosList->getHeadElement().pos->y == mainGameMechsRef->getBoardSizeY() - 1)
-                    playerPosList->getHeadElement().pos->y = 0;
+                    playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x, 0, '@'));
                 else
-                    playerPosList->getHeadElement().pos->y++;
+                    playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x, playerPosList->getHeadElement().pos->y + 1, '@'));
                 break;
             case LEFT:
                 if(playerPosList->getHeadElement().pos->x == 0)
-                    playerPosList->getHeadElement().pos->x = mainGameMechsRef->getBoardSizeX() - 1;
+                    playerPosList->insertHead(objPos(mainGameMechsRef->getBoardSizeX() - 1, playerPosList->getHeadElement().pos->y, '@'));
                 else
-                    playerPosList->getHeadElement().pos->x--;
+                    playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x - 1, playerPosList->getHeadElement().pos->y, '@'));
                 break;
             case RIGHT:
                 if(playerPosList->getHeadElement().pos->x == mainGameMechsRef->getBoardSizeX() - 1)
-                    playerPosList->getHeadElement().pos->x = 0;
+                    playerPosList->insertHead(objPos(0, playerPosList->getHeadElement().pos->y, '@'));
                 else
-                    playerPosList->getHeadElement().pos->x++;
+                    playerPosList->insertHead(objPos(playerPosList->getHeadElement().pos->x + 1, playerPosList->getHeadElement().pos->y, '@'));
                 break;
         }
     }
@@ -99,10 +100,4 @@ void Player::checkSelfCollision(){
             }
     }
     return;
-}
-//increase player length?
-void Player::increasePlayerSize(bool wasFed){
-    if(!wasFed){
-        playerPosList->removeTail();
-    }
 }
