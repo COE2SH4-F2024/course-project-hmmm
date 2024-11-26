@@ -1,50 +1,57 @@
 #include "Food.h"
+#include <time.h>
+#include "objPos.h"
+#include "objPosArrayList.h"
+
 
 Food::Food(){
-    takenCoords = new int*[5];
-    for (int i=0;i<5;i++){
-        takenCoords[i] = new int[2];
-        takenCoords[i][0] = -1;
-        takenCoords[i][1] = -1;
-    }
+    foodPos = objPos(-1, -1, '&');
 }
 
 Food::~Food(){
-    for (int i=0;i<5;i++){
-        delete takenCoords[i];
-    }
-    delete[] takenCoords;
-    delete[] chosenFoods;
-    takenCoords = NULL;
-    chosenFoods = NULL;
+    //TODO
+    
+}
+
+objPos Food::getFoodPos() const
+{
+    return this->foodPos;
 }
 
 
+// void Food::FoodGeneration(objPosArrayList foodList){
+//     srand(time(NULL));
+//     chosenFoods = new int[5];
+//     // for(int i=0;i<5;i++){
+//     //     chosenFoods[i] = 40;
+//     // }
+//     for(int i=0;i< rand()%3 ;i++){ // (max - min + 1) + 1 => (2 - 1 + 1)+ 1 either 1 or 2 special foods
+//         chosenFoods[i] = rand()% 3 + 36; //chooses a random special food (either type 1 or type 2)
+//     }//generates between 1 and 2 inclusive so either 1 or 2
+// }
 
-int** Food::CoordsGeneration(int playerX, int playerY){
+void Food::CoordsGeneration(int playerX, int playerY, Food* foodArray[]){
+    srand(time(NULL));
+    bool hasObject = false;
     int goodCoords = 0;
     do{
-        x = rand()%28;
-        y = rand()%13;
+        hasObject = false;
+        int x = rand()%28;
+        int y = rand()%13;
         for(int i=0;i<5;i++){
-            if(x != takenCoords[i][0] && y != takenCoords[i][1] && x==playerX && y==playerY){
-                takenCoords[i][0] = x;
-                takenCoords[i][1] = y;
-                goodCoords++;
+            if((x == foodArray[i]->getFoodPos().pos->x && y == foodArray[i]->getFoodPos().pos->y)
+                || (x==playerX && y==playerY)){
+                hasObject = true;
             }
+
+        }
+        if(!hasObject){
+            foodPos.pos->x = x;
+            foodPos.pos->y = y;
+            foodPos.symbol = 38;
+            goodCoords++;
         }
 
-    }while(goodCoords < 5);
-    return takenCoords;
-}
 
-int* Food::FoodGeneration(){
-    chosenFoods = new int[5];
-    for(int i=0;i<5;i++){
-        chosenFoods[i] = 0;
-    }
-    for(int i=0;i< rand()%3 ;i++){ // (max - min + 1) + 1 => (2 - 1 + 1)+ 1 either 1 or 2 special foods
-        chosenFoods[i] = rand()% 3; //chooses a random special food (either type 1 or type 2)
-    }
-    return chosenFoods;
+    }while(goodCoords < 1);
 }

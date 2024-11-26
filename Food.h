@@ -10,17 +10,15 @@
 
 class Food{
     private:
-        int** takenCoords;
-        int* chosenFoods;
-        int x;
-        int y;
-        int type; //0 = normal, 1 = special_1, 2 = special_2
+        objPos foodPos;
 
     public:
         Food();
         ~Food();
-        int** CoordsGeneration(int playerX, int playerY);
-        int* FoodGeneration();
+        void CoordsGeneration(int playerX, int playerY, Food* foodArray[]);
+        //void FoodGeneration(objPosArrayList foodList);
+
+        objPos getFoodPos() const;
 
 };
 

@@ -12,7 +12,7 @@ Player::Player(GameMechs* thisGMRef)
 
 Player::~Player()
 {
-    // delete any heap members here
+    //TODO delete any heap members here
 }
 
 objPos Player::getPlayerPos() const

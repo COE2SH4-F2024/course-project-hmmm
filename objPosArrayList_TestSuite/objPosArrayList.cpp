@@ -5,8 +5,13 @@
 
 objPosArrayList::objPosArrayList()
 {
+    //size of snake
     listSize = 0;
+
+    //size allocated
     arrayCapacity = 200;
+
+    //arraylist containing nodes
     aList = new objPos[arrayCapacity];
 }
 
@@ -45,11 +50,8 @@ void objPosArrayList::insertTail(objPos thisPos)
 
 void objPosArrayList::removeHead()
 {
-    if (listSize > 0) {
-        for (int i = 0; i < listSize - 1; i++) {
-            aList[i] = aList[i + 1];
-        }
-        listSize--;
+    for (int i = 0; i < listSize; i++) {
+        aList[i] = aList[i + 1];
     }
 }
 

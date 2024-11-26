@@ -4,16 +4,25 @@
 #include "Player.h"
 #include "GameMechs.h"
 #include "Food.h"
+#include "objPosArrayList.h"
 
 using namespace std;
 
 #define DELAY_CONST 100000
+#define FOOD_NUM_CONST 5
 
 //Global Variables
 bool exitFlag;
 Player* player = nullptr;
 GameMechs* gameMechs = nullptr;
+objPosArrayList* playerList = nullptr;
+objPosArrayList* foodList = nullptr;
+
+
+Food* foodArray[FOOD_NUM_CONST] = {nullptr};
+
 Food* food = nullptr;
+
 
 int winningScore;
 
@@ -54,10 +63,24 @@ void Initialize(void)
     //creating new gamne objects
     gameMechs = new GameMechs();
     player = new Player(gameMechs);
-    //food = new Food();
+    playerList = new objPosArrayList();
+    playerList->insertHead(player->getPlayerPos());
+
+
+    for(int i = 0; i < 5; i++){
+        foodArray[i] = new Food();
+    }
+    for(int i = 0; i < 5; i++){
+        foodArray[i]->CoordsGeneration(player->getPlayerPos().pos->x, player->getPlayerPos().pos->y, foodArray);
+    }
+
+
     winningScore = 100;
     srand(time(NULL));
     exitFlag = false;
+
+
+
 }
 
 void GetInput(void)
@@ -78,15 +101,19 @@ void RunLogic(void)
     player->updatePlayerDir();
     player->movePlayer();
 
-    //food->CoordsGeneration(player->getPlayerPos().pos->x, player->getPlayerPos().pos->y);
-    //food->FoodGeneration();
+    playerList->insertHead(player->getPlayerPos());
+    bool collision = false;
+
+    if(!collision){
+        playerList->removeTail();
+    }
     
 }
 
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
-        int hasObject = 0;
+    bool hasObject = false;
 
     int i,j;
     for(i=0;i<gameMechs->getBoardSizeX()+2;i++){
@@ -96,12 +123,25 @@ void DrawScreen(void)
     for(i=0;i<gameMechs->getBoardSizeY();i++){
             MacUILib_printf("#");
         for(j=0; j<gameMechs->getBoardSizeX();j++){
-            if(j == (player->getPlayerPos().pos->x) && i == (player->getPlayerPos().pos->y)){
-                MacUILib_printf("%c", player->getPlayerPos().getSymbol());
+            hasObject = false;
+
+
+            for(int k = 0; k < playerList->getSize(); k++){
+                if(j == (playerList->getElement(k).pos->x) && i == (playerList->getElement(k).pos->y)){
+                    MacUILib_printf("%c", player->getPlayerPos().getSymbol());
+                    hasObject = true;
+                }
             }
-            else{
+            for(int k = 0; k < FOOD_NUM_CONST; k++){
+                if(j == (foodArray[k]->getFoodPos().pos->x) && i == (foodArray[k]->getFoodPos().pos->y)){
+                    MacUILib_printf("%c", foodArray[k]->getFoodPos().getSymbol());
+                    hasObject = true;
+                }
+            }
+            if(!hasObject){
                 MacUILib_printf(" ");
             }
+            
         }
         MacUILib_printf("#\n");
     }
@@ -122,5 +162,6 @@ void CleanUp(void)
     MacUILib_clearScreen();    
     free(player);
     free(gameMechs);
+    //TODO for loop through array --> free(index)
     MacUILib_uninit();
 }
