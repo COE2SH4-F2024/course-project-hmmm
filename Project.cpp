@@ -77,7 +77,7 @@ void GetInput(void)
 
 void RunLogic(void)
 {
-    if(gameMechs->getScore() == winningScore || gameMechs->getInput() == 27){
+    if(gameMechs->getScore() >= winningScore || gameMechs->getInput() == 27){
         gameMechs->setExitTrue();
     }
     exitFlag = gameMechs->getExitFlagStatus();
