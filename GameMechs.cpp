@@ -1,90 +1,95 @@
 #include "GameMechs.h"
 #include <stdio.h>
 
-GameMechs::GameMechs() //initializes with default values for board size
+//Initializes with default values for board size
+GameMechs::GameMechs()
 {
-    boardSizeX = 28; //only the size of the board that the snake can access, excludes borders
+    //Initializes only the size of the board that the snake can access, excludes borders
+    boardSizeX = 28;
     boardSizeY = 13;
     score = 0;
     exitFlag = false;
     loseFlag = false;
-
-    
-    //this->food = objPos(rand() %boardSizeX, rand() %boardSizeY,'@'); //update to avoid snake tiles
-
 }
 
-GameMechs::GameMechs(int boardSizeX, int boardSizeY) //initializes with custom board size values
+//Initializes with custom values for board size
+GameMechs::GameMechs(int boardSizeX, int boardSizeY) 
 {
     this->boardSizeX = boardSizeX;
     this->boardSizeY = boardSizeY;
     score = 0;
     exitFlag = false;
     loseFlag = false;
-    //this->food = objPos(rand() %boardSizeX, rand() %boardSizeY,'@'); //update to avoid snake tiles
 }
 
-// do you need a destructor?
+//Destructor
 GameMechs::~GameMechs()
 {
-    
+    //TODO
 }
 
+//Gets the status of the exit flag
 bool GameMechs::getExitFlagStatus() const
 {
-    return this->exitFlag;
+    return exitFlag;
 }
 
+//Gets the lose flag status
 bool GameMechs::getLoseFlagStatus() const
 {
-    return this->loseFlag;
+    return loseFlag;
 }
     
-
+//Gets player input
 char GameMechs::getInput() const
 {
-    return this->input;
+    return input;
 }
 
+//Gets the current score
 int GameMechs::getScore() const
 {
-    return this->score;
+    return score;
 }
 
+//Increases score by 1
 void GameMechs::incrementScore()
 {
-    this->score++;
+    score++;
 }
 
+//Gets the X size of the board
 int GameMechs::getBoardSizeX() const
 {
-    return this->boardSizeX;
+    return boardSizeX;
 }
 
+//Gets the Y size of the board
 int GameMechs::getBoardSizeY() const
 {
-    return this->boardSizeY;
+    return boardSizeY;
 }
 
-
+//Sets the exit condition to true
 void GameMechs::setExitTrue()
 {
     exitFlag = true;
 }
 
+//Sets the lose flag to true
 void GameMechs::setLoseFlag()
 {
-    this->loseFlag = true;
+    loseFlag = true;
 }
 
+//Sets the this->input to parameter input
 void GameMechs::setInput(char input)
 {
     this->input = input;
 }
 
+//Clears the input
 void GameMechs::clearInput()
 {
-    this->input = '\0';
+    input = '\0';
 }
-
-// More methods should be added here
