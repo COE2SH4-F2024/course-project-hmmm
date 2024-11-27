@@ -1,5 +1,6 @@
 #include "objPos.h"
 
+//Constructor for objPos class
 objPos::objPos()
 {
     pos = new Pos;
@@ -8,6 +9,7 @@ objPos::objPos()
     symbol = 0; //NULL
 }
 
+//Overloaded constructor for objPos class taking custom coordinates and symbol as parameters
 objPos::objPos(int xPos, int yPos, char sym)
 {
     pos = new Pos;
@@ -16,21 +18,19 @@ objPos::objPos(int xPos, int yPos, char sym)
     symbol = sym;
 }
 
-// Respect the rule of six / minimum four
-
-//Destructor
-//TODO fix this!
+//Destructor for objPos class
 objPos::~objPos(){
     delete pos;
 }
-//Copy Constructor
+
+//Copy Constructor for objPos class
 objPos::objPos(const objPos& other){
     pos = new Pos;
     pos->x = other.pos->x;
     pos->y = other.pos->y;
     symbol = other.symbol;
 }
-//Copy Assignment Operator
+//Copy Assignment Operator for objPos class
 objPos& objPos::operator=(const objPos& other){
     this->~objPos();
     
@@ -40,29 +40,21 @@ objPos& objPos::operator=(const objPos& other){
     symbol = other.symbol;
 }
 
-
-//objPos A = new objPos(10,15,@);
-//object A   x = 10, y = 15, symbol = @
-//objPos B = A;
-//object B   x = 10, y = 15, symbol = @
-
-//objPos C = new objPos(0,0,#);
-//C = A
-//object C   x = 10, y = 15, symbol = @
-
-
+//Copies using objPos
 void objPos::setObjPos(objPos o){
     pos->x = o.pos->x;
     pos->y = o.pos->y;
     symbol = o.symbol;
 }
 
+//Copies using parameter values
 void objPos::setObjPos(int xPos, int yPos, char sym){
     pos->x = xPos;
     pos->y = yPos;
     symbol = sym;
 }
 
+//Gets the position of an object
 objPos objPos::getObjPos() const{
     objPos returnPos;
     returnPos.pos->x = pos->x;
@@ -72,14 +64,17 @@ objPos objPos::getObjPos() const{
     return returnPos;
 }
 
+//Gets the symbol of an object
 char objPos::getSymbol() const{
     return symbol;
 }
 
+//Returns a boolean for whether two objects are occupying the same tile
 bool objPos::isPosEqual(const objPos* refPos) const{
     return (refPos->pos->x == pos->x && refPos->pos->y == pos->y);
 }
 
+//Gets the symbol if the positions of two objects is the same
 char objPos::getSymbolIfPosEqual(const objPos* refPos) const{
     if(isPosEqual(refPos))
         return symbol;
