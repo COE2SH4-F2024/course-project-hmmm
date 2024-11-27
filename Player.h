@@ -17,6 +17,7 @@ class Player
         enum Dir {UP, DOWN, LEFT, RIGHT, STOP};  // This is the direction state
 
         Player(GameMechs* thisGMRef);
+        Player(GameMechs* thisGMRef, int x, int y);
         ~Player();
 
         objPosArrayList* getPlayerPos() const;
@@ -24,7 +25,7 @@ class Player
         void movePlayer();
 
         bool checkFoodConsumption(objPosArrayList* foodList);
-        void checkSelfCollision();
+        bool checkSelfCollision();
     
 
     private:   

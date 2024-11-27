@@ -19,7 +19,8 @@ Food::Food(int size){
 
 Food::~Food(){
     //TODO
-    
+    delete foodPosList;
+    foodPosList = nullptr;
 }
 
 objPosArrayList* Food::getFoodPos() const
@@ -28,10 +29,10 @@ objPosArrayList* Food::getFoodPos() const
 }
 
 
-void Food::foodGeneration(objPosArrayList* playerPosList){
+void Food::foodGeneration(objPosArrayList* playerPosList, int numFood){
     delete foodPosList;
     foodPosList = new objPosArrayList();
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < numFood; i++){
         foodPosList->insertHead(objPos(-1, -1, '&'));
     }
 
