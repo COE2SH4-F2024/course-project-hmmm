@@ -53,6 +53,7 @@ void objPosArrayList::removeHead()
     for (int i = 0; i < listSize; i++) {
         aList[i] = aList[i + 1];
     }
+    listSize--;
 }
 
 void objPosArrayList::removeTail()
