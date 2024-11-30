@@ -10,7 +10,7 @@ using namespace std;
 
 //Constants
 #define DELAY_CONST 100000
-#define FOOD_NUM_CONST 10
+#define FOOD_NUM_CONST 5
 #define WINNING_SCORE 100
 #define BOARD_SIZE_X 28
 #define BOARD_SIZE_Y 13
